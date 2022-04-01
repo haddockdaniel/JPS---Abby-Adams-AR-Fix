@@ -98,10 +98,16 @@ namespace JurisUtilityBase
 
         private void DoDaFix()
         {
-
-
             string sql = "";
-            sql = " update arftaskalloc set arftrcvd=arftactualamtbld + arftadj where arftbillnbr=52283";
+            sql = " update arftaskalloc set arftrcvd =arftactualamtbld+ arftadj from armatalloc where armbillnbr=arftbillnbr and armmatter=arftmatter and armbaldue=0";
+            _jurisUtility.ExecuteNonQuery(0, sql);
+            sql = " update arexpalloc set arercvd = arebldamount + areadj from armatalloc where arebillnbr = armbillnbr and armmatter = arematter and armbaldue = 0";
+            _jurisUtility.ExecuteNonQuery(0, sql);
+            sql = " update feesumbyprd set fspfeereceived = 58.50 where fspmatter = 20435 and fsptkpr = 3 and fspprdyear = 2013 and fspprdnbr = 8";
+            _jurisUtility.ExecuteNonQuery(0, sql);
+            sql = " update feesumbyprd set fspfeereceived = 66.50 where fspmatter = 20435 and fsptkpr = 172 and fspprdyear = 2013 and fspprdnbr = 8";
+            _jurisUtility.ExecuteNonQuery(0, sql);
+            sql = " update ledgerhistory set lhfees = 125.00, lhcshexp = -71.88 where lhsysnbr = 75955";
             _jurisUtility.ExecuteNonQuery(0, sql);
 
             MessageBox.Show("Done", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.None);
@@ -109,19 +115,7 @@ namespace JurisUtilityBase
         }
         private bool VerifyFirmName()
         {
-            //    Dim SQL     As String
-            //    Dim rsDB    As ADODB.Recordset
-            //
-            //    SQL = "SELECT CASE WHEN SpTxtValue LIKE '%firm name%' THEN 'Y' ELSE 'N' END AS Firm FROM SysParam WHERE SpName = 'FirmName'"
-            //    Cmd.CommandText = SQL
-            //    Set rsDB = Cmd.Execute
-            //
-            //    If rsDB!Firm = "Y" Then
             return true;
-            //    Else
-            //        VerifyFirmName = False
-            //    End If
-
         }
 
         private bool FieldExistsInRS(DataSet ds, string fieldName)
